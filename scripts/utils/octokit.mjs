@@ -19,6 +19,7 @@ export async function getGitTags(owner, repo) {
       const per_page = 100;
 
       while (true) {
+         // eslint-disable-next-line no-await-in-loop
          const res = await octokit.rest.repos.listTags({
             owner,
             repo,
@@ -94,7 +95,7 @@ export async function getCommitsBetween(owner, repo, from, to = 'HEAD') {
 export async function checkTagExists(tagName) {
    console.log(`⚠️ Checking ${tagName} tag exists`);
    try {
-      const ref = await octokit.rest.git.getRef({
+      await octokit.rest.git.getRef({
          owner,
          repo,
          ref: `tags/${tagName}`,

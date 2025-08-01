@@ -1,6 +1,6 @@
 import { exec } from '../utils/exec.mjs';
 import pack from 'libnpmpack';
-import { checkTagExists, getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
+import { getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
 import { join } from 'path';
 const registry = 'https://npm.pkg.github.com';
 async function buildProject() {
@@ -47,4 +47,4 @@ async function buildProject() {
 
    console.log('✅ Package published to GitHub NPM registry!');
 }
-buildProject();
+void buildProject();

@@ -36,4 +36,4 @@ async function buildProject() {
    console.log(`🔗 Release URL: ${release.html_url}`);
    console.log('📦 Asset uploaded: install.tgz');
 }
-buildProject();
+void buildProject();

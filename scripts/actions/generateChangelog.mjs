@@ -1,5 +1,4 @@
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { resolve } from 'path';
 import { getCommitsBetween, repoURL, getGitTags, owner, repo } from '../utils/octokit.mjs';
 import { writeFileSync } from 'fs';
 import { typeMap } from '../utils/commitOptions.mjs';
@@ -11,12 +10,10 @@ const changelogHeader =
    'The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),\n' +
    'and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n' +
    '\n';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 const outputPath = resolve(process.cwd(), 'CHANGELOG.md');
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-   generateChangelog().then(changelogContent => {
+   void generateChangelog().then(changelogContent => {
       writeFileSync(outputPath, changelogContent, 'utf8');
       console.log('✅ Changelog generated successfully!');
       console.log(`📝 Written to: ${outputPath}`);
@@ -167,7 +164,9 @@ async function generateChangelog() {
    for (let i = 0; i < uniqueTags.length; i++) {
       const currentTag = uniqueTags[i];
       const previousTag = uniqueTags[i + 1];
-      const commits = getCommitsBetween(previousTag, currentTag);
+      // eslint-disable-next-line no-await-in-loop
+      const commits = await getCommitsBetween(previousTag, currentTag);
+      console.log(commits);
       if (commits.length === 0) continue;
 
       const parsedCommits = commits.flatMap(parseCommit);

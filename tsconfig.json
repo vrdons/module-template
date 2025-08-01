@@ -30,6 +30,6 @@
       "composite": true,
       "sourceMap": false
    },
-   "files": ["src/index.ts", "tsup.config.ts"],
-   "include": ["src","scripts/actions/patch.mjs","scripts/utils/octokit.mjs","scripts/utils/exec.mjs"]
+   "files": ["src/index.ts", "tsup.config.ts","eslint.config.mjs"],
+   "include": ["src","scripts"]
 }

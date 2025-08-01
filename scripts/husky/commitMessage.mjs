@@ -8,7 +8,7 @@ if (!messagePath) throw new Error(`❌ Required Argument: MessagePath`);
 console.log(`⚠️  Commit message path: ${messagePath}`);
 const file = readFileSync(messagePath, 'utf-8');
 console.log('✨ Checking commit format...');
-checkMessage(file).then(() => {
+void checkMessage(file).then(() => {
    console.log('✨ Formatting commit...');
 
    const types = typeKeys.join('|');

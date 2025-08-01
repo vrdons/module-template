@@ -44,7 +44,6 @@ export default defineConfig([
          globals: {
             ...globals.node,
             ...globals.es2021,
-            ...globals.commonjs,
          },
       },
       rules: {
@@ -52,7 +51,7 @@ export default defineConfig([
       },
    },
    {
-      files: ['**/*.ts', '**/*.tsx'],
+      files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.mjs', '**/*.cjs', '**/*.mts'],
       languageOptions: {
          parser: tsparser,
          parserOptions: {
@@ -66,6 +65,13 @@ export default defineConfig([
       },
       extends: ['ts/recommended'],
       rules: {
+         '@typescript-eslint/no-explicit-any': 'error',
+         'require-await': 'warn',
+         'no-return-await': 'error',
+         'no-await-in-loop': 'warn',
+         '@typescript-eslint/no-floating-promises': 'error',
+         '@typescript-eslint/require-await': 'warn',
+         '@typescript-eslint/no-misused-promises': 'error',
          'prettier/prettier': 'warn',
          'tsc/config': [
             'error',
