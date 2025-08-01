@@ -2,6 +2,7 @@ import { exec, getPackageJson } from '../utils/exec.mjs';
 import pack from 'libnpmpack';
 import { getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
 import { join } from 'path';
+import { tmpdir } from 'os';
 const registry = 'https://npm.pkg.github.com';
 async function buildProject() {
    const pkg = getPackageJson();

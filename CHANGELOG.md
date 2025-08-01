@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Binding js lint (remove :P) by [@vrdons](https://github.com/vrdons) ([1b39bac](https://github.com/vrdons/module-template/commit/1b39bac6a9404e86a9ba449a2b4621d8bbb82739))
 
+### 💄 Styles
+
+- AI generated readme.md by [@vrdons](https://github.com/vrdons) ([a7f5056](https://github.com/vrdons/module-template/commit/a7f5056d0cd97e350330a38c21d5f1a6e847fad3))
+
 ## [v0.0.1](https://github.com/vrdons/module-template/releases/tag/v0.0.1) - 2025-08-01
 
 ### ✨ Features
