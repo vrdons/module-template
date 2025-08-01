@@ -1,0 +1,54 @@
+{
+   "name": "module-template",
+   "version": "0.0.1",
+   "description": "Module template",
+   "homepage": "https://github.com/vrdons/module-template#readme",
+   "bugs": {
+      "url": "https://github.com/vrdons/module-template/issues"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/vrdons/module-template.git"
+   },
+   "license": "MIT",
+   "author": "vrdons",
+   "main": "./dist/index.js",
+   "module": "./dist/index.mjs",
+   "types": "./dist/index.d.ts",
+   "exports": {
+      ".": {
+         "require": "./dist/index.js",
+         "import": "./dist/index.mjs"
+      }
+   },
+   "scripts": {
+      "prepare": "node ./scripts/husky/installHusky.mjs",
+      "lint": "eslint .",
+      "lint:fix": "eslint . --fix",
+      "build": "tsup"
+   },
+   "devDependencies": {
+      "@commitlint/config-conventional": "^19.8.1",
+      "@commitlint/lint": "^19.8.1",
+      "@commitlint/load": "^19.8.1",
+      "@eslint/js": "^9.32.0",
+      "@eslint/json": "^0.13.1",
+      "@eslint/markdown": "^7.1.0",
+      "@octokit/rest": "^22.0.0",
+      "@swc/core": "^1.13.3",
+      "@types/node": "^24.1.0",
+      "@typescript-eslint/eslint-plugin": "^8.38.0",
+      "@typescript-eslint/parser": "^8.38.0",
+      "eslint": "^9.32.0",
+      "eslint-config-prettier": "^10.1.8",
+      "eslint-plugin-prettier": "^5.5.3",
+      "eslint-plugin-tsc": "^2.0.0",
+      "husky": "^9.1.7",
+      "prettier": "^3.6.2",
+      "tsup": "^8.5.0",
+      "typescript": "^5.8.3"
+   },
+   "dependencies": {
+      "tslib": "^2.8.1"
+   }
+}
