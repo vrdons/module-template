@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Latest
 
+### ✨ Features
+
+- Add npmjs and github npm registry by [@vrdons](https://github.com/vrdons) ([d83c1ef](https://github.com/vrdons/module-template/commit/d83c1ef691be0cbad5598fd7a9e0aa432ad02c56))
+
 ### 🐛 Bug Fixes
 
 - Unknown UUID in npm release (again) by [@vrdons](https://github.com/vrdons) ([7dbdd9e](https://github.com/vrdons/module-template/commit/7dbdd9e90722cb781c857c8a7f8833bb76e327d7))

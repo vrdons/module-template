@@ -1,6 +1,6 @@
 {
    "name": "@vrdons/module-template",
-   "version": "0.0.2",
+   "version": "0.0.3-alpha",
    "description": "Module template",
    "homepage": "https://github.com/vrdons/module-template#readme",
    "bugs": {
