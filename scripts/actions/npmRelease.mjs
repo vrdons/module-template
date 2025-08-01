@@ -2,7 +2,7 @@ import { exec, getPackageJson } from '../utils/exec.mjs';
 import pack from 'libnpmpack';
 import { getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
 import { join } from 'path';
-import { tmpdir } from 'os';
+import { homedir, tmpdir } from 'os';
 import { writeFileSync } from 'fs';
 const registry = 'https://npm.pkg.github.com';
 async function buildProject() {
@@ -10,6 +10,15 @@ async function buildProject() {
    console.log('🚀 Starting GitHub NPM Publish Process...');
    console.log(`🔗 Repository: ${owner}/${repo} (from git remote)`);
    console.log(`✨ Version: v${pkg.version}`);
+   const npmrcPath = join(homedir(), '.npmrc');
+   const authToken = process.env.NODE_AUTH_TOKEN;
+
+   if (!authToken) {
+      throw new Error('❌ NODE_AUTH_TOKEN is not set');
+   }
+
+   writeFileSync(npmrcPath, `//npm.pkg.github.com/:_authToken=${authToken}\n`);
+   console.log('🛡️ Wrote temporary .npmrc for GitHub Registry auth');
    const version = `${pkg.version}`;
    const url = `${registry}/${encodeURIComponent(pkg.name)}`;
 

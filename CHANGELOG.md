@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Unknown UUID in npm release (again) by [@vrdons](https://github.com/vrdons) ([7dbdd9e](https://github.com/vrdons/module-template/commit/7dbdd9e90722cb781c857c8a7f8833bb76e327d7))
 
+### 🔧 Chores
+
+- No needed build source by [@vrdons](https://github.com/vrdons) ([849ee8b](https://github.com/vrdons/module-template/commit/849ee8b2c4d3cce6f014cd934f8c667675103f17))
+
 ## [v0.0.2](https://github.com/vrdons/module-template/compare/v0.0.1...v0.0.2) - 2025-08-01
 
 ### 🐛 Bug Fixes

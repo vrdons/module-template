@@ -20,9 +20,9 @@ jobs:
 
       - name: 📦 Install dependecies
         run: npm ci
-
       - name: 📝 Run node package manager release script
         run: npm run release:npm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
