@@ -31,6 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Npm version check by [@vrdons](https://github.com/vrdons) ([a2d040f](https://github.com/vrdons/module-template/commit/a2d040fb899a409eed15ae96a434692079162f3d))
 
+### 🔧 Chores
+
+- **octokit:** Rename ok to octokit by [@vrdons](https://github.com/vrdons) ([bee2271](https://github.com/vrdons/module-template/commit/bee22712790467e271220f98774b0ac2ffd8fc2c))
+
 ### 📦 Dependency Updates
 
 - **dev:** Package: tslib by [@vrdons](https://github.com/vrdons) ([2977b60](https://github.com/vrdons/module-template/commit/2977b60e3855fe6b6c49fbf8766cdf4fb19c0ce0))

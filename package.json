@@ -28,7 +28,7 @@
       "build": "tsup",
       "changelog": "node ./scripts/actions/generateChangelog.mjs",
       "release:git": "node ./scripts/actions/githubRelease.mjs",
-      "release:npm": "node ./scripts/actions/githubRelease.mjs"
+      "release:npm": "node ./scripts/actions/npmRelease.mjs"
    },
    "devDependencies": {
       "@commitlint/config-conventional": "^19.8.1",
