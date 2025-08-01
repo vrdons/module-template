@@ -35,7 +35,7 @@ export default defineConfig([
       files: ['**/*.md'],
       plugins: { markdown },
       language: 'markdown/commonmark',
-      rules: ['markdown/recommended'],
+      extends: ['markdown/recommended'],
    },
    {
       files: ['**/*.js', '**/*.mjs', '**/*.cjs'],

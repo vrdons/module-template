@@ -25,7 +25,8 @@
       "prepare": "node ./scripts/husky/installHusky.mjs",
       "lint": "eslint .",
       "lint:fix": "eslint . --fix",
-      "build": "tsup"
+      "build": "tsup",
+      "changelog": "node ./scripts/actions/generateChangelog.mjs"
    },
    "devDependencies": {
       "@commitlint/config-conventional": "^19.8.1",

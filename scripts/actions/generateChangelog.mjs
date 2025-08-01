@@ -2,6 +2,7 @@ import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { getCommitsBetween, repoURL, getGitTags, owner, repo } from './octokit.mjs';
 import { writeFileSync } from 'fs';
+import { typeMap } from '../commit/commitOptions.mjs';
 const changelogHeader =
    '# Changelog\n' +
    '\n' +
@@ -64,7 +65,7 @@ export function parseCommit(commit) {
 
    const conventionalRegex =
       /(?:[\p{Emoji_Presentation}\p{Extended_Pictographic}]+\s*)?(\w+)(?:\(([^)]+)\))?: ([^\p{Emoji_Presentation}\p{Extended_Pictographic}]+)/gu;
-   const matches = [...commit.subject.matchAll(conventionalRegex)];
+   const matches = [...commit.body.matchAll(conventionalRegex)];
 
    if (matches.length > 0) {
       // Return multiple parsed commits for each conventional commit found
@@ -72,7 +73,7 @@ export function parseCommit(commit) {
          const [, type, scope, description] = match;
          return {
             type: type,
-            scope,
+            scope: scope,
             description: description.trim(),
             hash: commit.hash,
             date: commit.date,
@@ -96,39 +97,37 @@ export function parseCommit(commit) {
 
 async function generateChangelog() {
    const tags = await getGitTags(owner, repo);
-   const uniqueTags = [...new Set(tags)].filter(tag => tag && tag !== 'lastest' && !tag.includes('undefined'));
-
+   const uniqueTags = [...new Set(tags)].filter(tag => tag);
    let changelog = changelogHeader;
-   if (uniqueTags.length > 0) {
-      const unreleasedCommits = getCommitsBetween(uniqueTags[0]);
-      if (unreleasedCommits.length > 0) {
-         const parsedCommits = unreleasedCommits;
-         const groupedCommits = {};
+   const unreleasedCommits = await getCommitsBetween(owner, repo, uniqueTags[0] ?? '');
+   if (unreleasedCommits.length > 0) {
+      const parsedCommits = unreleasedCommits.flatMap(parseCommit);
+      const groupedCommits = {};
 
-         parsedCommits.forEach(commit => {
-            const typeLabel = typeMap[commit.type] || '🔧 Chores';
-            if (!groupedCommits[typeLabel]) {
-               groupedCommits[typeLabel] = [];
-            }
-            groupedCommits[typeLabel].push(commit);
-         });
+      parsedCommits.forEach(commit => {
+         const typeLabel = typeMap[commit.type] ? commit.type : typeMap.chore;
+         if (!groupedCommits[typeLabel]) {
+            groupedCommits[typeLabel] = [];
+         }
+         groupedCommits[typeLabel].push(commit);
+      });
 
-         changelog += '## Latest\n\n';
+      changelog += '## Latest\n\n';
 
-         const typeOrder = Object.values(typeMap);
+      const typeOrder = Object.keys(typeMap);
 
-         typeOrder.forEach(typeLabel => {
-            if (groupedCommits[typeLabel]) {
-               changelog += `### ${typeLabel}\n\n`;
-               groupedCommits[typeLabel].forEach(commit => {
-                  const commitLink = formatCommitLink(commit.hash, repoURL);
-                  const scopeText = commit.scope ? `**${commit.scope}:**` : '';
-                  changelog += `- ${scopeText}${commit.description} ${commit.author} (${commitLink})\n`;
-               });
-               changelog += '\n';
-            }
-         });
-      }
+      typeOrder.forEach(typeLabel => {
+         if (groupedCommits[typeLabel]) {
+            const label = typeMap[typeLabel];
+            changelog += `### ${label.emoji} ${label.text}\n\n`;
+            groupedCommits[typeLabel].forEach(commit => {
+               const commitLink = formatCommitLink(commit.hash, repoURL);
+               const scopeText = commit.scope ? `**${commit.scope}:** ` : '';
+               changelog += `- ${scopeText}${commit.description} ${commit.author} (${commitLink})\n`;
+            });
+            changelog += '\n';
+         }
+      });
    }
 
    for (let i = 0; i < uniqueTags.length; i++) {
@@ -139,9 +138,8 @@ async function generateChangelog() {
 
       const parsedCommits = commits.flatMap(parseCommit);
       const groupedCommits = {};
-
       parsedCommits.forEach(commit => {
-         const typeLabel = typeMap[commit.type] || '🔧 Chores';
+         const typeLabel = typeMap[commit.type] ? commit.type : typeMap.chore;
          if (!groupedCommits[typeLabel]) {
             groupedCommits[typeLabel] = [];
          }
@@ -152,11 +150,12 @@ async function generateChangelog() {
       const versionDate = parsedCommits[0]?.date || new Date().toISOString().split('T')[0];
       changelog += `## [${currentTag}](${compareUrl}) - ${versionDate}\n\n`;
 
-      const typeOrder = Object.values(typeMap);
+      const typeOrder = Object.keys(typeMap);
 
       typeOrder.forEach(typeLabel => {
          if (groupedCommits[typeLabel]) {
-            changelog += `### ${typeLabel}\n\n`;
+            const label = typeMap[typeLabel];
+            changelog += `### ${label.emoji} ${label.text}\n\n`;
             groupedCommits[typeLabel].forEach(commit => {
                const commitLink = formatCommitLink(commit.hash, repoURL);
                const scopeText = commit.scope ? `**${commit.scope}:** ` : '';

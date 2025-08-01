@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 
 export function exec(command, options = {}) {
-   return execSync(command, { ...options, stdio: 'inherit' });
+   return execSync(command, { ...options, stdio: 'inherit', encoding: 'utf-8' });
 }
 export function getPackageJson() {
    const packageJsonPath = resolve(process.cwd(), 'package.json');

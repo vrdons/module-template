@@ -45,15 +45,28 @@ export function getCommitHash(fullHash) {
 }
 /**
  * GitHub API ile iki commit (veya tag) arasında commit listesini alır
- * @param {Octokit} octokit - Octokit örneği
  * @param {string} owner - Repo sahibi
  * @param {string} repo - Repo adı
  * @param {string} from - Base commit/tag/SHA
  * @param {string} to - Head commit/tag/SHA (varsayılan: default branch HEAD)
  * @returns {Promise<Array>} - Commit listesi
  */
-export async function getCommitsBetween(octokit, owner, repo, from, to = 'HEAD') {
+export async function getCommitsBetween(owner, repo, from, to = 'HEAD') {
    try {
+      if (!from) {
+         // İlk commit'i almak için sayfalamayı paginate ile yap
+         const commits = await octokit.paginate(octokit.rest.repos.listCommits, {
+            owner,
+            repo,
+            per_page: 100,
+         });
+
+         from = commits.length > 0 ? commits[commits.length - 1].sha : null;
+         if (!from) {
+            console.warn('Repo içinde commit bulunamadı.');
+            return [];
+         }
+      }
       const res = await octokit.rest.repos.compareCommits({
          owner,
          repo,
@@ -65,13 +78,12 @@ export async function getCommitsBetween(octokit, owner, repo, from, to = 'HEAD')
          return {
             hash: commit.sha,
             subject: commit.commit.message.split('\n')[0],
-            body: commit.commit.message.split('\n').slice(1).join('\n').trim(),
+            body: commit.commit.message.split('\n').join('\n').trim(),
             date: commit.commit.author?.date?.slice(0, 10), // YYYY-MM-DD
             authorName: commit.commit.author?.name,
             authorEmail: commit.commit.author?.email,
          };
       });
-
       return commits;
    } catch (err) {
       console.warn('❌ getCommitsBetween error:', err.message);
