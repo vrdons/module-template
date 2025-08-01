@@ -165,8 +165,7 @@ async function generateChangelog() {
       const currentTag = uniqueTags[i];
       const previousTag = uniqueTags[i + 1];
       // eslint-disable-next-line no-await-in-loop
-      const commits = await getCommitsBetween(previousTag, currentTag);
-      console.log(commits);
+      const commits = await getCommitsBetween(owner, repo, previousTag, currentTag);
       if (commits.length === 0) continue;
 
       const parsedCommits = commits.flatMap(parseCommit);

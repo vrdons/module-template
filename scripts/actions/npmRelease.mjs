@@ -1,4 +1,4 @@
-import { exec } from '../utils/exec.mjs';
+import { exec, getPackageJson } from '../utils/exec.mjs';
 import pack from 'libnpmpack';
 import { getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
 import { join } from 'path';
