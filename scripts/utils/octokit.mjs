@@ -112,7 +112,7 @@ export async function checkTagExists(tagName) {
 }
 export async function getCurrentCommitSha() {
    console.log(`⚠️ Checking current sha`);
-   const { data: branch } = await ok.rest.repos.getBranch({
+   const { data: branch } = await octokit.rest.repos.getBranch({
       owner,
       repo,
       branch: 'master',
@@ -122,7 +122,7 @@ export async function getCurrentCommitSha() {
 }
 export async function createVersionTag(version, sha) {
    console.log(`🏷️  Creating version tag: ${version}`);
-   await ok.rest.git.createRef({
+   await octokit.rest.git.createRef({
       owner,
       repo,
       ref: `refs/tags/${version}`,
@@ -133,7 +133,7 @@ export async function createVersionTag(version, sha) {
 export async function createRelease(version, tgzBuffer, body = '') {
    console.log('🎉 Creating GitHub Release...');
 
-   const { data: release } = await ok.rest.repos.createRelease({
+   const { data: release } = await octokit.rest.repos.createRelease({
       owner,
       repo,
       tag_name: version,
@@ -146,7 +146,7 @@ export async function createRelease(version, tgzBuffer, body = '') {
    // Upload the .tgz file as a release asset
    console.log('📎 Uploading release asset...');
 
-   await ok.rest.repos.uploadReleaseAsset({
+   await octokit.rest.repos.uploadReleaseAsset({
       owner,
       repo,
       release_id: release.id,
