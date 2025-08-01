@@ -26,7 +26,8 @@
       "lint": "eslint .",
       "lint:fix": "eslint . --fix",
       "build": "tsup",
-      "changelog": "node ./scripts/actions/generateChangelog.mjs"
+      "changelog": "node ./scripts/actions/generateChangelog.mjs",
+      "release:git": "node ./scripts/actions/githubRelease.mjs"
    },
    "devDependencies": {
       "@commitlint/config-conventional": "^19.8.1",
@@ -45,6 +46,7 @@
       "eslint-plugin-prettier": "^5.5.3",
       "eslint-plugin-tsc": "^2.0.0",
       "husky": "^9.1.7",
+      "libnpmpack": "^9.0.6",
       "prettier": "^3.6.2",
       "tsup": "^8.5.0",
       "typescript": "^5.8.3"

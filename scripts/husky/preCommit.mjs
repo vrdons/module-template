@@ -1,4 +1,5 @@
-import { exec } from '../exec.mjs';
+import { exec } from '../utils/exec.mjs';
+
 console.log('✨ Checking lint');
 
 exec('npm run lint');

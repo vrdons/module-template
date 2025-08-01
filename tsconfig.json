@@ -31,5 +31,5 @@
       "sourceMap": false
    },
    "files": ["src/index.ts", "tsup.config.ts"],
-   "include": ["src","scripts/actions/patch.ts","scripts/actions/octokit.mjs","scripts/exec.mjs"]
+   "include": ["src","scripts/actions/patch.mjs","scripts/utils/octokit.mjs","scripts/utils/exec.mjs"]
 }

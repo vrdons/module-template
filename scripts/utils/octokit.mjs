@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/rest';
-import { getRepoInfo } from '../exec.mjs';
+import { getRepoInfo } from './exec.mjs';
 
 const octokit = new Octokit({
    auth: process.env.GITHUB_TOKEN,
@@ -63,7 +63,7 @@ export async function getCommitsBetween(owner, repo, from, to = 'HEAD') {
 
          from = commits.length > 0 ? commits[commits.length - 1].sha : null;
          if (!from) {
-            console.warn('Repo içinde commit bulunamadı.');
+            console.warn('❌ Cannot find lastest branch.');
             return [];
          }
       }
@@ -89,4 +89,70 @@ export async function getCommitsBetween(owner, repo, from, to = 'HEAD') {
       console.warn('❌ getCommitsBetween error:', err.message);
       return [];
    }
+}
+
+export async function checkTagExists(tagName) {
+   console.log(`⚠️ Checking ${tagName} tag exists`);
+   try {
+      const ref = await octokit.rest.git.getRef({
+         owner,
+         repo,
+         ref: `tags/${tagName}`,
+      });
+      console.log(`✔️ ${tagName} tag exists`);
+      return true;
+   } catch (error) {
+      console.warn(`❌ ${tagName} tag not found`);
+
+      if (error.status === 404) {
+         return false;
+      }
+      throw error;
+   }
+}
+export async function getCurrentCommitSha() {
+   console.log(`⚠️ Checking current sha`);
+   const { data: branch } = await ok.rest.repos.getBranch({
+      owner,
+      repo,
+      branch: 'master',
+   });
+   console.log(`✔️ Found sha: ${branch.commit.sha}`);
+   return branch.commit.sha;
+}
+export async function createVersionTag(version, sha) {
+   console.log(`🏷️  Creating version tag: ${version}`);
+   await ok.rest.git.createRef({
+      owner,
+      repo,
+      ref: `refs/tags/${version}`,
+      sha: sha,
+   });
+   console.log(`✔️ Successfully created tag: ${version}`);
+}
+export async function createRelease(version, tgzBuffer, body = '') {
+   console.log('🎉 Creating GitHub Release...');
+
+   const { data: release } = await ok.rest.repos.createRelease({
+      owner,
+      repo,
+      tag_name: version,
+      name: version,
+      body: body || `Release ${version}`,
+      draft: false,
+      prerelease: version.includes('alpha') || version.includes('beta') || version.includes('rc'),
+   });
+
+   // Upload the .tgz file as a release asset
+   console.log('📎 Uploading release asset...');
+
+   await ok.rest.repos.uploadReleaseAsset({
+      owner,
+      repo,
+      release_id: release.id,
+      name: 'install.tgz',
+      data: tgzBuffer,
+   });
+
+   return release;
 }

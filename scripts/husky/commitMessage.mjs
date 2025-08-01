@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import lint from '@commitlint/lint';
 import loadConfig from '@commitlint/load';
-import { commitLintConfig, typeKeys, typeMap } from '../commit/commitOptions.mjs';
+import { commitLintConfig, typeKeys, typeMap } from '../utils/commitOptions.mjs';
 const messagePath = process.argv[2];
 
 if (!messagePath) throw new Error(`❌ Required Argument: MessagePath`);

@@ -1,15 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 const curreg = /\[VI\]\{\{(.+?)\}\}\[\/VI\]/g;
-import { owner, repo } from './octokit.mjs';
-import { getPackageJson } from '../exec.mjs';
+import { owner, repo } from '../utils/octokit.mjs';
+import { getPackageJson } from '../utils/exec.mjs';
 
 const packageJson = getPackageJson();
 
 export default async function () {
    await new Promise(resolve => setTimeout(resolve, 50));
 
-   function getAllJsFiles(dir: string): string[] {
+   function getAllJsFiles(dir) {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
       return entries.flatMap(entry => {
          const fullPath = path.join(dir, entry.name);

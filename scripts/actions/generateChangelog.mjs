@@ -1,8 +1,8 @@
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
-import { getCommitsBetween, repoURL, getGitTags, owner, repo } from './octokit.mjs';
+import { getCommitsBetween, repoURL, getGitTags, owner, repo } from '../utils/octokit.mjs';
 import { writeFileSync } from 'fs';
-import { typeMap } from '../commit/commitOptions.mjs';
+import { typeMap } from '../utils/commitOptions.mjs';
 const changelogHeader =
    '# Changelog\n' +
    '\n' +
@@ -93,6 +93,40 @@ export function parseCommit(commit) {
          author: authorInfo,
       },
    ];
+}
+export async function generateUncommittedChangelog() {
+   const tags = await getGitTags(owner, repo);
+   const uniqueTags = [...new Set(tags)].filter(tag => tag);
+   const unreleasedCommits = await getCommitsBetween(owner, repo, uniqueTags[0] ?? '');
+   let changelog = '';
+   if (unreleasedCommits.length > 0) {
+      const parsedCommits = unreleasedCommits.flatMap(parseCommit);
+      const groupedCommits = {};
+
+      parsedCommits.forEach(commit => {
+         const typeLabel = typeMap[commit.type] ? commit.type : typeMap.chore;
+         if (!groupedCommits[typeLabel]) {
+            groupedCommits[typeLabel] = [];
+         }
+         groupedCommits[typeLabel].push(commit);
+      });
+
+      const typeOrder = Object.keys(typeMap);
+
+      typeOrder.forEach(typeLabel => {
+         if (groupedCommits[typeLabel]) {
+            const label = typeMap[typeLabel];
+            changelog += `### ${label.emoji} ${label.text}\n\n`;
+            groupedCommits[typeLabel].forEach(commit => {
+               const commitLink = formatCommitLink(commit.hash, repoURL);
+               const scopeText = commit.scope ? `**${commit.scope}:** ` : '';
+               changelog += `- ${scopeText}${commit.description} ${commit.author} (${commitLink})\n`;
+            });
+            changelog += '\n';
+         }
+      });
+   }
+   return changelog;
 }
 
 async function generateChangelog() {

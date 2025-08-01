@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup';
-import patchBuild from './scripts/actions/patch';
+import patchBuild from './scripts/actions/patch.mjs';
 export default defineConfig({
    entry: ['src/index.ts'],
    tsconfig: 'tsconfig.json',
