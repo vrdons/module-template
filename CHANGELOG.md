@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Latest
+
+### 🐛 Bug Fixes
+
+- Unknown UUID in npm release (again) by [@vrdons](https://github.com/vrdons) ([7dbdd9e](https://github.com/vrdons/module-template/commit/7dbdd9e90722cb781c857c8a7f8833bb76e327d7))
+
 ## [v0.0.2](https://github.com/vrdons/module-template/compare/v0.0.1...v0.0.2) - 2025-08-01
 
 ### 🐛 Bug Fixes

@@ -3,6 +3,7 @@ import pack from 'libnpmpack';
 import { getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
 import { join } from 'path';
 import { tmpdir } from 'os';
+import { writeFileSync } from 'fs';
 const registry = 'https://npm.pkg.github.com';
 async function buildProject() {
    const pkg = getPackageJson();
@@ -41,7 +42,7 @@ async function buildProject() {
    console.log('📦 Packing npm...');
    const tarballBuffer = await pack(process.cwd());
    const tempPath = join(tmpdir(), `publish.tgz`);
-   await writeFile(tempPath, tarballBuffer);
+   writeFileSync(tempPath, tarballBuffer);
    console.log('📦 Written tarball to temp path:', tempPath);
    console.log('🚚 Publishing to GitHub Packages Registry...');
    exec(`npm publish "${tempPath}" --registry=${registry}`);
