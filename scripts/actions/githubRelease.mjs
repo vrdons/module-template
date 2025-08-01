@@ -1,11 +1,14 @@
-import { exec } from '../utils/exec.mjs';
+import { exec, getPackageJson } from '../utils/exec.mjs';
 import pack from 'libnpmpack';
 import { checkTagExists, createRelease, createVersionTag, getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
 import { generateUncommittedChangelog } from './generateChangelog.mjs';
 
 async function buildProject() {
+   const pkg = getPackageJson();
    console.log('🚀 Starting GitHub Release Process...');
    console.log(`🔗 Repository: ${owner}/${repo} (from git remote)`);
+   console.log(`✨ Version: v${pkg.version}`);
+   const version = `v${pkg.version}`;
    const tagExists = await checkTagExists(version);
 
    if (tagExists) {
