@@ -40,7 +40,7 @@ async function buildProject() {
    exec('npm run build', { env: { ...process.env, BUILD_SOURCE: 'NPM' } });
    console.log('📦 Packing npm...');
    const tarballBuffer = await pack(process.cwd());
-   const tempPath = join(tmpdir(), `publish-${randomUUID()}.tgz`);
+   const tempPath = join(tmpdir(), `publish.tgz`);
    await writeFile(tempPath, tarballBuffer);
    console.log('📦 Written tarball to temp path:', tempPath);
    console.log('🚚 Publishing to GitHub Packages Registry...');

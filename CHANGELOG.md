@@ -5,11 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Latest
+## [v0.0.2](https://github.com/vrdons/module-template/compare/v0.0.1...v0.0.2) - 2025-08-01
 
 ### 🐛 Bug Fixes
 
 - Binding js lint (remove :P) by [@vrdons](https://github.com/vrdons) ([1b39bac](https://github.com/vrdons/module-template/commit/1b39bac6a9404e86a9ba449a2b4621d8bbb82739))
+- Unknown tmpdir in npm release by [@vrdons](https://github.com/vrdons) ([8381501](https://github.com/vrdons/module-template/commit/83815017e988732ea656eafa9983f472fa649457))
 
 ### 💄 Styles
 
