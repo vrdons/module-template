@@ -2,9 +2,10 @@ import { exec } from '../utils/exec.mjs';
 import pack from 'libnpmpack';
 import { checkTagExists, createRelease, createVersionTag, getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
 import { generateUncommittedChangelog } from './generateChangelog.mjs';
+import { join } from 'path';
 
 async function buildProject() {
-   console.log('🚀 Starting GitHub Release Process...');
+   console.log('🚀 Starting GitHub NPM Publish Process...');
    console.log(`🔗 Repository: ${owner}/${repo} (from git remote)`);
    const tagExists = await checkTagExists(version);
 
@@ -19,18 +20,15 @@ async function buildProject() {
    console.log('📦 Installing dependencies...');
    exec('npm ci');
    console.log('🔨 Building TypeScript...');
-   exec('npm run build', { env: { ...process.env, BUILD_SOURCE: 'GH' } });
+   exec('npm run build', { env: { ...process.env, BUILD_SOURCE: 'NPM' } });
    console.log('📦 Packing npm...');
    const tarballBuffer = await pack(process.cwd());
+   const tempPath = join(tmpdir(), `publish-${randomUUID()}.tgz`);
+   await writeFile(tempPath, tarballBuffer);
+   console.log('📦 Written tarball to temp path:', tempPath);
+   console.log('🚚 Publishing to GitHub Packages Registry...');
+   exec(`npm publish "${tempPath}" --registry=https://npm.pkg.github.com/`);
 
-   await createVersionTag(version, currentSha);
-   console.log(`📝 Generating changelog...`);
-   const changelog = await generateUncommittedChangelog();
-   const notes = `## Release Notes${changelog ? `\n\n${changelog}` : ''}`;
-
-   const release = await createRelease(version, tarballBuffer, notes);
-   console.log('✅ GitHub Release created successfully!');
-   console.log(`🔗 Release URL: ${release.html_url}`);
-   console.log('📦 Asset uploaded: install.tgz');
+   console.log('✅ Package published to GitHub NPM registry!');
 }
 buildProject();
