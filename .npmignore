@@ -10,9 +10,7 @@ docs/
 
 package-lock.json
 
-eslint.config.mjs
-.prettierrc.json
-.prettierignore
+biome.json
 
 .github/
 

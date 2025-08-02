@@ -4,6 +4,8 @@ console.log('✨ Checking lint');
 
 exec('npm run lint');
 
+exec('npm run check');
+
 console.log('✨ Generating changelog');
 
 exec('node scripts/actions/generateChangelog.mjs');

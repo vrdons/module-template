@@ -25,6 +25,7 @@
 		"prepare": "node ./scripts/husky/installHusky.mjs",
 		"lint": "biome check",
 		"lint:fix": "biome check --write --unsafe",
+		"check": "tsc --noEmit",
 		"build": "tsup",
 		"changelog": "node ./scripts/actions/generateChangelog.mjs",
 		"release:git": "node ./scripts/actions/githubRelease.mjs",
