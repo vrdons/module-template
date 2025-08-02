@@ -19,7 +19,6 @@ export async function getGitTags(owner, repo) {
       const per_page = 100;
 
       while (true) {
-         // eslint-disable-next-line no-await-in-loop
          const res = await octokit.rest.repos.listTags({
             owner,
             repo,
@@ -55,7 +54,6 @@ export function getCommitHash(fullHash) {
 export async function getCommitsBetween(owner, repo, from, to = 'HEAD') {
    try {
       if (!from) {
-         // İlk commit'i almak için sayfalamayı paginate ile yap
          const commits = await octokit.paginate(octokit.rest.repos.listCommits, {
             owner,
             repo,
@@ -144,7 +142,6 @@ export async function createRelease(version, tgzBuffer, body = '') {
       prerelease: version.includes('alpha') || version.includes('beta') || version.includes('rc'),
    });
 
-   // Upload the .tgz file as a release asset
    console.log('📎 Uploading release asset...');
 
    await octokit.rest.repos.uploadReleaseAsset({

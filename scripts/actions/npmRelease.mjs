@@ -97,7 +97,7 @@ async function main() {
    generateNpmRc(githubToken, npmToken);
    if (githubToken) {
       try {
-         await publishGitHubPackages(pkg, githubToken, branch);
+         await publishGitHubPackages(pkg, githubToken);
       } catch (error) {
          console.error('❌ GitHub Packages publish failed:', error);
          errors.push('GitHub Packages');

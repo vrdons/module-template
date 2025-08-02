@@ -29,7 +29,11 @@ async function buildProject() {
    await createVersionTag(version, currentSha);
    console.log(`📝 Generating changelog...`);
    const changelog = await generateUncommittedChangelog();
-   const notes = `## Release Notes${changelog ? `\n\n${changelog}` : ''}`;
+   let notes = '## Release Notes';
+   if (changelog) {
+      notes += '\n\n' + changelog;
+   }
+
 
    const release = await createRelease(version, tarballBuffer, notes);
    console.log('✅ GitHub Release created successfully!');

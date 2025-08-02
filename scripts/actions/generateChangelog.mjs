@@ -14,7 +14,7 @@ const changelogHeader =
 const outputPath = resolve(process.cwd(), 'CHANGELOG.md');
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-   void generateChangelog().then(changelogContent => {
+   generateChangelog().then(changelogContent => {
       writeFileSync(outputPath, changelogContent, 'utf8');
       console.log('✅ Changelog generated successfully!');
       console.log(`📝 Written to: ${outputPath}`);
