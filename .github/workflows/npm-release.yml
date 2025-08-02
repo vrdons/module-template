@@ -11,14 +11,14 @@ jobs:
 
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.1
 
       - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: '20'
 
-      - name: 📦 Install dependecies
+      - name: 📦 Install dependencies
         run: npm ci
       - name: 📝 Run node package manager release script
         run: npm run release:npm

@@ -7,7 +7,11 @@ import { writeFileSync } from 'fs';
 
 const GITHUB_REGISTRY = 'https://npm.pkg.github.com';
 const NPMJS_REGISTRY = 'https://registry.npmjs.org';
-
+const npmrcPath = join(homedir(), '.npmrc');
+function generateNpmRc(githubToken, npmToken) {
+   writeFileSync(npmrcPath, `//npm.pkg.github.com/:_authToken=${githubToken}\n//registry.npmjs.org/:_authToken=${npmToken}\n`);
+   console.log('🛡️ Wrote temporary .npmrc for GitHub Registry auth');
+}
 async function checkVersionExists(registryUrl, packageName, version, headers = {}) {
    const url = `${registryUrl}/${encodeURIComponent(packageName)}`;
    const response = await fetch(url, { headers });
@@ -47,11 +51,8 @@ async function buildProject() {
    return tempPath;
 }
 
-async function publishGitHubPackages(pkg, npmrcPath, githubToken) {
+async function publishGitHubPackages(pkg, githubToken) {
    console.log('🚀 Starting GitHub Packages publish...');
-
-   writeFileSync(npmrcPath, `//npm.pkg.github.com/:_authToken=${githubToken}\n`);
-   console.log('🛡️ Wrote temporary .npmrc for GitHub Registry auth');
 
    const versionExists = await checkVersionExists(GITHUB_REGISTRY, pkg.name, pkg.version, {
       Authorization: `Bearer ${githubToken}`,
@@ -70,10 +71,8 @@ async function publishGitHubPackages(pkg, npmrcPath, githubToken) {
    console.log('✅ Published to GitHub Packages!');
 }
 
-async function publishNpmjs(pkg, npmrcPath, npmToken, branch) {
+async function publishNpmjs(pkg, branch) {
    console.log('🚚 Publishing to npmjs Registry...');
-
-   writeFileSync(npmrcPath, `//registry.npmjs.org/:_authToken=${npmToken}\n`, { flag: 'a' });
 
    console.log('🔎 Checking version on npmjs registry...');
    const versionExists = await checkVersionExists(NPMJS_REGISTRY, pkg.name, pkg.version);
@@ -87,7 +86,6 @@ async function publishNpmjs(pkg, npmrcPath, npmToken, branch) {
 async function main() {
    const pkg = getPackageJson();
    const branch = pkg.version.includes('alpha') || pkg.version.includes('beta') ? 'next' : 'latest';
-   const npmrcPath = join(homedir(), '.npmrc');
 
    console.log('🚀 Starting NPM Publish Process...');
    console.log(`🔗 Repository: ${owner}/${repo} (from git remote)`);
@@ -96,10 +94,10 @@ async function main() {
    const errors = [];
    const githubToken = process.env.GITHUB_TOKEN;
    const npmToken = process.env.NPM_TOKEN;
-
+   generateNpmRc(githubToken, npmToken);
    if (githubToken) {
       try {
-         await publishGitHubPackages(pkg, npmrcPath, githubToken, branch);
+         await publishGitHubPackages(pkg, githubToken, branch);
       } catch (error) {
          console.error('❌ GitHub Packages publish failed:', error);
          errors.push('GitHub Packages');
@@ -111,7 +109,7 @@ async function main() {
 
    if (npmToken) {
       try {
-         await publishNpmjs(pkg, npmrcPath, npmToken, branch);
+         await publishNpmjs(pkg, branch);
       } catch (error) {
          console.error('❌ npmjs publish failed:', error);
          errors.push('npmjs');

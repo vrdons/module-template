@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup';
-import patchBuild from './scripts/actions/patch.mjs';
+
 export default defineConfig({
    entry: ['src/index.ts'],
    tsconfig: 'tsconfig.json',
@@ -8,5 +8,8 @@ export default defineConfig({
    format: ['esm', 'cjs'],
    clean: true,
    dts: true,
-   onSuccess: patchBuild,
+   onSuccess: async () => {
+      const { default: patchBuild } = await import('./scripts/actions/patch.mjs');
+      return patchBuild();
+   },
 });

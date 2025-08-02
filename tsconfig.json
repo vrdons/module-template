@@ -2,14 +2,14 @@
    "compileOnSave": true,
    "compilerOptions": {
       "outDir": "./dist",
-      "rootDir": ".",
+      "rootDir": "./src",
       "allowSyntheticDefaultImports": true,
       "alwaysStrict": true,
       "declaration": true,
       "module": "nodenext",
       "moduleResolution": "nodenext",
       "resolveJsonModule": true,
-      "allowJs": true,
+      "allowJs": false,
       "checkJs": false,
       "esModuleInterop": true,
       "declarationMap": true,
@@ -30,6 +30,5 @@
       "composite": true,
       "sourceMap": false
    },
-   "files": ["src/index.ts", "tsup.config.ts","eslint.config.mjs"],
-   "include": ["src","scripts"]
+   "include": ["src"]
 }

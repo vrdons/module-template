@@ -5,11 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Latest
+## [v0.0.3-alpha](https://github.com/vrdons/module-template/compare/v0.0.2...v0.0.3-alpha) - 2025-08-01
 
 ### ✨ Features
 
 - Add npmjs and github npm registry by [@vrdons](https://github.com/vrdons) ([d83c1ef](https://github.com/vrdons/module-template/commit/d83c1ef691be0cbad5598fd7a9e0aa432ad02c56))
+- Add npmjs selection by [@vrdons](https://github.com/vrdons) ([fe7d428](https://github.com/vrdons/module-template/commit/fe7d4282287d9cd99e20780f20f21842958ea8a3))
 
 ### 🐛 Bug Fixes
 
@@ -19,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔧 Chores
 
 - No needed build source by [@vrdons](https://github.com/vrdons) ([849ee8b](https://github.com/vrdons/module-template/commit/849ee8b2c4d3cce6f014cd934f8c667675103f17))
+- Npm package testing by [@vrdons](https://github.com/vrdons) ([fe7d428](https://github.com/vrdons/module-template/commit/fe7d4282287d9cd99e20780f20f21842958ea8a3))
+
+### 🚀 Release
+
+- Version 0.0.3-alpha by [@vrdons](https://github.com/vrdons) ([fe7d428](https://github.com/vrdons/module-template/commit/fe7d4282287d9cd99e20780f20f21842958ea8a3))
 
 ## [v0.0.2](https://github.com/vrdons/module-template/compare/v0.0.1...v0.0.2) - 2025-08-01
 

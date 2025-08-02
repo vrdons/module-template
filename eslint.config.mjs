@@ -55,7 +55,7 @@ export default defineConfig([
       languageOptions: {
          parser: tsparser,
          parserOptions: {
-            project: './tsconfig.json',
+            project: './tsconfig.eslint.json',
          },
       },
       plugins: {
@@ -76,7 +76,7 @@ export default defineConfig([
          'tsc/config': [
             'error',
             {
-               configFile: 'tsconfig.json',
+               configFile: 'tsconfig.eslint.json',
             },
          ],
       },

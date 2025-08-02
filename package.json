@@ -1,6 +1,6 @@
 {
    "name": "@vrdons/module-template",
-   "version": "0.0.3-alpha",
+   "version": "0.0.4",
    "description": "Module template",
    "homepage": "https://github.com/vrdons/module-template#readme",
    "bugs": {
@@ -26,6 +26,7 @@
       "lint": "eslint .",
       "lint:fix": "eslint . --fix",
       "build": "tsup",
+      "check": "tsc --noEmit",
       "changelog": "node ./scripts/actions/generateChangelog.mjs",
       "release:git": "node ./scripts/actions/githubRelease.mjs",
       "release:npm": "node ./scripts/actions/npmRelease.mjs"
