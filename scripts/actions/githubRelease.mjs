@@ -1,7 +1,7 @@
 import { exec, getPackageJson } from '../utils/exec.mjs';
-import pack from 'libnpmpack';
 import { checkTagExists, createRelease, createVersionTag, getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
 import { generateUncommittedChangelog } from './generateChangelog.mjs';
+import pack from 'libnpmpack';
 
 async function buildProject() {
    const pkg = getPackageJson();

@@ -1,7 +1,8 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { commitLintConfig, typeKeys, typeMap } from '../utils/commitOptions.mjs';
 import lint from '@commitlint/lint';
 import loadConfig from '@commitlint/load';
-import { commitLintConfig, typeKeys, typeMap } from '../utils/commitOptions.mjs';
+
 const messagePath = process.argv[2];
 
 if (!messagePath) throw new Error(`❌ Required Argument: MessagePath`);
@@ -21,7 +22,7 @@ void checkMessage(file).then(() => {
          const type = typeMatch[1];
          const emoji = typeMap[type]?.emoji || '';
          if (emoji && !line.startsWith(emoji)) {
-            return emoji + ' ' + line;
+            return `${emoji} ${line}`;
          }
       }
       return line;

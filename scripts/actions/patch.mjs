@@ -1,8 +1,10 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
+
 const curreg = /\[VI\]\{\{(.+?)\}\}\[\/VI\]/g;
-import { owner, repo } from '../utils/octokit.mjs';
+
 import { getPackageJson } from '../utils/exec.mjs';
+import { owner, repo } from '../utils/octokit.mjs';
 
 const packageJson = getPackageJson();
 
@@ -28,9 +30,9 @@ export default async function () {
                return gerVersion();
             } else if (p1 === 'name') {
                return packageJson.name;
-            } else if (p1 == 'ghown') {
+            } else if (p1 === 'ghown') {
                return owner;
-            } else if (p1 == 'ghrep') {
+            } else if (p1 === 'ghrep') {
                return repo;
             } else {
                return match;
@@ -44,7 +46,7 @@ export default async function () {
 function gerVersion() {
    try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const source = process.env.BUILD_SOURCE;
+      const _source = process.env.BUILD_SOURCE;
       return `v${packageJson?.version ?? '0.0.1'}`; //${source ? `|${source}` : ''}
    } catch {
       return 'v0.0.1';

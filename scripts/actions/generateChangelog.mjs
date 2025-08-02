@@ -1,7 +1,8 @@
-import { resolve } from 'path';
-import { getCommitsBetween, repoURL, getGitTags, owner, repo } from '../utils/octokit.mjs';
-import { writeFileSync } from 'fs';
+import { writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { typeMap } from '../utils/commitOptions.mjs';
+import { getCommitsBetween, getGitTags, owner, repo, repoURL } from '../utils/octokit.mjs';
+
 const changelogHeader =
    '# Changelog\n' +
    '\n' +
@@ -32,7 +33,8 @@ export function parseCommit(commit) {
    if (commit.body) {
       const coAuthorRegex = /Co-authored-by:\s*([^<]+)<([^>]+)>/g;
       let coAuthorMatch;
-      while ((coAuthorMatch = coAuthorRegex.exec(commit.body)) !== null) {
+      while (coAuthorRegex.exec(commit.body) !== null) {
+         coAuthorMatch = coAuthorRegex.exec(commit.body);
          const [, name, email] = coAuthorMatch;
          coAuthors.push({ name: name.trim(), email: email.trim() });
       }

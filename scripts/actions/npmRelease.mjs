@@ -1,9 +1,9 @@
+import { writeFileSync } from 'node:fs';
+import { homedir, tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { exec, getPackageJson } from '../utils/exec.mjs';
-import pack from 'libnpmpack';
 import { getCurrentCommitSha, owner, repo } from '../utils/octokit.mjs';
-import { join } from 'path';
-import { homedir, tmpdir } from 'os';
-import { writeFileSync } from 'fs';
+import pack from 'libnpmpack';
 
 const GITHUB_REGISTRY = 'https://npm.pkg.github.com';
 const NPMJS_REGISTRY = 'https://registry.npmjs.org';
